@@ -1,0 +1,9 @@
+src/index.html
+*.sw[op]
+node_modules
+src/assets/vendor
+dist
+src/app/**/*.css
+*.log
+src/assets/css/application.css
+.idea

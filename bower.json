@@ -1,0 +1,31 @@
+{
+  "name": "echauri",
+  "description": "Echauri",
+  "main": "",
+  "authors": [
+    "Echauri Team"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.3",
+    "angular": "~1.5.0",
+    "angular-ui-router": "~0.2.18",
+    "angular-gettext": "~2.2.1",
+    "restangular": "~1.5.2",
+    "moment": "~2.12.0",
+    "angular-loading-bar": "^0.9.0",
+    "ngmap": "^1.17.3",
+    "bootstrap": "~3.3.6",
+    "lodash": "~4.13.1"
+  },
+  "devDependencies": {}
+}
