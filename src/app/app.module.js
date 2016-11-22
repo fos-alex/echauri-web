@@ -4,6 +4,9 @@
     angular.module('app', [
         'ui.router',
         'restangular',
+        'ngMap',
+        'ngAnimate',
+        'thatisuday.ng-image-gallery',
 
         'app.home',
 

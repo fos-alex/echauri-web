@@ -4,15 +4,15 @@
     angular
         .module('app')
         .config(configure)
-        .run(["$rootScope", function($rootScope) {
+        .run(["$rootScope", ($rootScope) => {
             $rootScope.preferences =  {};
 
-            $rootScope.$on('$stateChangeStart', function(event, toState) {
+            $rootScope.$on('$stateChangeStart', (event, toState) => {
                 $rootScope.showSearchBar = (toState.name != 'home' ? true : false);
                 $rootScope.isHomeScreen = (toState.name.indexOf('home') !== -1 ? true : false);
             });
 
-            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
                 console.log('There was an error in the routing.');
                 console.error(error);
             });

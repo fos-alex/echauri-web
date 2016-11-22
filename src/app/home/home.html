@@ -4,20 +4,30 @@
         <div class="intro-text">
             <div class="intro-lead-in">Almacén de vinos</div>
             <div class="intro-heading">Echauri</div>
-            <a href="#services" class="page-scroll btn btn-xl">Ver más</a>
+            <a href="#map" class="page-scroll btn btn-xl">Ver más</a>
         </div>
     </div>
 </header>
 
-<!-- Services Section -->
-<section id="services">
-    <div class="container">
+<!-- Map Section -->
+<section id="map">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Tu almacén de vinos en Belgrano</h2>
-                <h3 class="section-subheading text-muted">Vuelta de Obligado 2290, Belgrano. Tel: 4706-3293</h3>
+            <div class="col-lg-12 no-padding text-center">
+                <div class="map-headers-container">
+                    <h2 class="section-heading">Tu almacén de vinos en Belgrano</h2>
+                    <h3 class="section-subheading">Vuelta de Obligado 2290, Belgrano, CABA. Tel: 4706-3293</h3>
+                </div>
+                <ng-map default-style="false" zoom="17" street-view-control="false" scrollwheel="false" center="2290 Vuelta de Obligado, Belgrano, Capital Federal">
+                    <marker position="2290 Vuelta de Obligado, Belgrano, Capital Federal" title="Echauri Vinos"></marker>
+                </ng-map>
             </div>
         </div>
+    </div>
+</section>
+
+<section id="service">
+    <div class="container">
         <div class="row text-center">
             <div class="col-md-4">
                     <span class="fa-stack fa-4x">
@@ -25,7 +35,7 @@
                         <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
                     </span>
                 <h4 class="service-heading">Confianza</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">En <strong>Echauri</strong> le brindamos la posibilidad de elegir su mejor compañía; para brindar, compartir una cena o sentir el placer de degustar el buen fruto de su tierra.</p>
             </div>
             <div class="col-md-4">
                     <span class="fa-stack fa-4x">
@@ -33,15 +43,15 @@
                         <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                     </span>
                 <h4 class="service-heading">Cuidado</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">El vino es el fruto del paso del tiempo. <br>Mezcla de ciencia y arte engendrada por la feliz combinación de suelo, clima y cepaje. <br>Velamos por la calidad de nuestros productos, para que esta mezcla llegue a tus manos tal como fue pensada en la bodega.</p>
             </div>
             <div class="col-md-4">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
+                        <i class="fa fa-glass fa-stack-1x fa-inverse"></i>
                     </span>
                 <h4 class="service-heading">Calidad</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">El buen vino es aquel que nos deja un gran recuerdo en nuestra mente; es el mejor acompañante del momento que queremos vivir.</p>
             </div>
         </div>
     </div>
@@ -53,25 +63,32 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Catas de Vino</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                <h3 class="section-subheading text-muted">Mirá las fotos de nuestras catas:</h3>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+            <div class="col-md-4 col-sm-6 portfolio-item" ng-repeat="cata in vm.catas">
+                <div class="portfolio-link" data-toggle="modal" ng-click="cata.gallery.openGallery()">
                     <div class="portfolio-hover">
                         <div class="portfolio-hover-content">
                             <i class="fa fa-plus fa-3x"></i>
                         </div>
                     </div>
-                    <img src="assets/img/portfolio/roundicons.png" class="img-responsive" alt="">
-                </a>
+                    <ng-image-gallery
+                            images="cata.gallery.images"
+                            methods="cata.gallery.methods"
+                            thumbnails="false"
+                            inline="false"
+                            bg-close="true"
+                            ></ng-image-gallery>
+                    <img ng-src="{{cata.cover}}" class="img-responsive" alt="">
+                </div>
                 <div class="portfolio-caption">
-                    <h4>Round Icons</h4>
-                    <p class="text-muted">Graphic Design</p>
+                    <h4>{{cata.title}}</h4>
+                    <p class="text-muted">{{cata.subtitle}}</p>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 portfolio-item">
+<!--            <div class="col-md-4 col-sm-6 portfolio-item">
                 <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
                     <div class="portfolio-hover">
                         <div class="portfolio-hover-content">
@@ -140,88 +157,7 @@
                     <h4>Dreams</h4>
                     <p class="text-muted">Website Design</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- About Section -->
-<section id="about">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Sobre Echauri</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="timeline">
-                    <li>
-                        <div class="timeline-image">
-                            <img class="img-circle img-responsive" src="assets/img/about/1.jpg" alt="">
-                        </div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>2009-2011</h4>
-                                <h4 class="subheading">Our Humble Beginnings</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image">
-                            <img class="img-circle img-responsive" src="assets/img/about/2.jpg" alt="">
-                        </div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>March 2011</h4>
-                                <h4 class="subheading">An Agency is Born</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-image">
-                            <img class="img-circle img-responsive" src="assets/img/about/3.jpg" alt="">
-                        </div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>December 2012</h4>
-                                <h4 class="subheading">Transition to Full Service</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image">
-                            <img class="img-circle img-responsive" src="assets/img/about/4.jpg" alt="">
-                        </div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>July 2014</h4>
-                                <h4 class="subheading">Phase Two Expansion</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image">
-                            <h4>Be Part
-                                <br>Of Our
-                                <br>Story!</h4>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            </div>-->
         </div>
     </div>
 </section>
@@ -232,22 +168,22 @@
         <div class="row">
             <div class="col-md-3 col-sm-6">
                 <a href="#">
-                    <img src="assets/img/logos/envato.jpg" class="img-responsive img-centered" alt="">
+                    <img src="assets/img/bodegas/salentein.jpg" class="img-responsive img-centered bodega-logo" alt="">
                 </a>
             </div>
             <div class="col-md-3 col-sm-6">
                 <a href="#">
-                    <img src="assets/img/logos/designmodo.jpg" class="img-responsive img-centered" alt="">
+                    <img src="assets/img/bodegas/kaiken.jpg" class="img-responsive img-centered bodega-logo" alt="">
                 </a>
             </div>
             <div class="col-md-3 col-sm-6">
                 <a href="#">
-                    <img src="assets/img/logos/themeforest.jpg" class="img-responsive img-centered" alt="">
+                    <img src="assets/img/bodegas/clos-de-los-siete.jpg" class="img-responsive img-centered bodega-logo" alt="">
                 </a>
             </div>
             <div class="col-md-3 col-sm-6">
                 <a href="#">
-                    <img src="assets/img/logos/creative-market.jpg" class="img-responsive img-centered" alt="">
+                    <img src="assets/img/bodegas/rutini.jpg" class="img-responsive img-centered bodega-logo" alt="">
                 </a>
             </div>
         </div>
@@ -260,40 +196,46 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Contactanos</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
+                <h3 class="section-subheading">Dejanos tu mensaje y te contactamos a la brevedad.</h3>
                 <form name="sentMessage" id="contactForm" novalidate>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Your Name *" id="name" required data-validation-required-message="Please enter your name.">
+                                <input type="text" class="form-control" placeholder="Nombre *" id="name" required data-validation-required-message="Tu nombre.">
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address.">
+                                <input type="email" class="form-control" placeholder="Email *" id="email" required data-validation-required-message="Email donde te podemos ubicar.">
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input type="tel" class="form-control" placeholder="Your Phone *" id="phone" required data-validation-required-message="Please enter your phone number.">
+                                <input type="tel" class="form-control" placeholder="Teléfono (opcional)" id="phone">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <textarea class="form-control" placeholder="Your Message *" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" placeholder="Tu mensaje *" id="message" required data-validation-required-message="Dejanos tu mensaje."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 text-center">
                             <div id="success"></div>
-                            <button type="submit" class="btn btn-xl">Send Message</button>
+                            <button type="submit" class="btn btn-xl">Enviar</button>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="col-lg-4">
+                <h3 class="section-subheading">Información de contacto:</h3>
+                <div class="row">
+                    <div class="col-sm-12">Información de contacto</div>
+                </div>
             </div>
         </div>
     </div>
@@ -301,39 +243,6 @@
 
 <!-- Portfolio Modals -->
 <!-- Use the modals below to showcase details about your portfolio projects! -->
-
-<!-- Portfolio Modal 1 -->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-content">
-        <div class="close-modal" data-dismiss="modal">
-            <div class="lr">
-                <div class="rl">
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <div class="modal-body">
-                        <!-- Project Details Go Here -->
-                        <h2>Project Name</h2>
-                        <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                        <img class="img-responsive img-centered" src="assets/img/portfolio/roundicons-free.png" alt="">
-                        <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                        <p>
-                            <strong>Want these icons in this portfolio item sample?</strong>You can download 60 of them for free, courtesy of <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase the 1500 icon set <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
-                        <ul class="list-inline">
-                            <li>Date: July 2014</li>
-                            <li>Client: Round Icons</li>
-                            <li>Category: Graphic Design</li>
-                        </ul>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Portfolio Modal 2 -->
 <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">

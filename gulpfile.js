@@ -8,7 +8,34 @@ var browserSync    = require('browser-sync').create();
 var modRewrite     = require('connect-modrewrite');
 var wiredep            = require('wiredep').stream;
 var LessAutoprefix = require('less-plugin-autoprefix');
+var babel = require("gulp-babel");
+var gulpif = require('gulp-if');
 var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
+
+// ENV Variables
+var ENVIRONMENTS = {
+    local:      'local',
+    develop:    'develop',
+    production: 'production'
+};
+
+//----------------------------------------------------//
+// Args:                                              //
+//   --useMin => Minify js and css                    //
+//   --maps   => Build srcmaps and link js files      //
+//                                                    //
+//----------------------------------------------------//
+
+var argv = require('yargs')
+    .default('environment', ENVIRONMENTS.develop).argv;
+if (argv[ENVIRONMENTS.production]) {
+    argv.environment = ENVIRONMENTS.production;
+} else if (argv[ENVIRONMENTS.develop]){
+    argv.environment = ENVIRONMENTS.develop;
+} else if (argv[ENVIRONMENTS.local]){
+    argv.environment = ENVIRONMENTS.local;
+}
+
 
 var paths = {
     js:     [
@@ -19,7 +46,7 @@ var paths = {
         'src/app/**/*.js'
     ],
     html: ['src/index.html', 'src/app/**/*.html'],
-    less: ['src/less/**/*.less'],
+    less: ['src/**/*.less'],
     css:  ['src/assets/css/*.css'],
     img:  ['src/assets/img/**/*.*'],
     fonts:['src/assets/fonts/**/*.*'],
@@ -83,6 +110,8 @@ gulp.task('less:watch', function() {
 gulp.task('js', function() {
     return gulp
         .src(paths.js)
+        .pipe(babel())
+        .pipe(gulpif(argv.maps,sourcemaps.write('./../maps')))
         .pipe(connect.reload())
         .on('end', log('Reloaded by changes on js'));
 });
