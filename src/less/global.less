@@ -1,0 +1,125 @@
+// Global Components
+
+body {
+  overflow-x: hidden;
+  .body-font;
+}
+
+.text-muted {
+  color: @gray;
+}
+
+.text-primary {
+  color: @brand-primary;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+p.large {
+  font-size: 16px;
+}
+
+a,
+a:hover,
+a:focus,
+a:active,
+a.active {
+  outline: none;
+}
+
+a {
+  color: @brand-primary;
+}
+
+a:hover,
+a:focus,
+a:active,
+a.active {
+  color: darken(@brand-primary, 10%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  .heading-font;
+  font-weight: 700;
+}
+
+.img-centered {
+  margin: 0 auto;
+}
+
+.bg-light-gray {
+  background-color: @gray-lighter;
+}
+
+.bg-darkest-gray {
+  background-color: @gray-darkest;
+}
+
+// Restyled Primary Buttons
+
+.btn-primary {
+  .button-variant(white; @brand-primary; @brand-primary);
+  .heading-font;
+  font-weight: 700;
+}
+
+.btn-xl {
+  .button-variant(white; @brand-primary; @brand-primary);
+  .heading-font;
+  font-weight: 700;
+  border-radius: 3px;
+  font-size: 18px;
+  padding: 20px 40px;
+}
+
+// Global Section Styles
+
+section {
+  padding: 100px 0;
+  h2.section-heading {
+    font-size: 40px;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  h3.section-subheading {
+    font-size: 16px;
+    .serif-font;
+    text-transform: none;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 75px;
+  }
+}
+
+@media(min-width:768px) {
+  section {
+    padding: 150px 0;
+  }
+}
+
+// Highlight Color Customization
+
+::-moz-selection {
+  text-shadow: none;
+  background: @brand-primary;
+}
+
+::selection {
+  text-shadow: none;
+  background: @brand-primary;
+}
+
+img::selection {
+  background: transparent;
+}
+
+img::-moz-selection {
+  background: transparent;
+}
+
+body {
+  webkit-tap-highlight-color: @brand-primary;
+}

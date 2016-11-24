@@ -1,11 +1,66 @@
-// Map Section
+header {
+  background: url('../img/header-test.jpg') no-repeat fixed;
+  /*background-position: 94% 100%;*/
+  background-size: cover;
+  background-color: black;
+  text-align: center;
+  color: white;
+  .intro-text {
+    padding-top: 80px;
+    padding-bottom: 70px;
+    .intro-lead-in {
+      .serif-font;
+      font-size: 22px;
+      line-height: 22px;
+      margin-bottom: 25px;
+    }
+    .intro-heading {
+      .heading-font;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 50px;
+      margin-bottom: 25px;
+    }
+  }
+}
 
+@media(min-width:768px) {
+  header {
+    .intro-text {
+      float: left;
+      padding: 220px 65px 240px;
+      .intro-lead-in {
+        .serif-font;
+        font-size: 40px;
+        line-height: 40px;
+        margin-bottom: 25px;
+      }
+      .intro-heading {
+        .heading-font;
+        font-weight: 700;
+        font-size: 75px;
+        line-height: 75px;
+        margin-bottom: 50px;
+      }
+    }
+  }
+}
+
+@media(min-width:1366px) {
+  header {
+    .intro-text {
+      padding: 350px 65px 350px;
+    }
+  }
+}
+
+// Map Section
 #map {
   padding: 0;
 
   ng-map {
     width: 100%;
-    height: 600px;
+    height: 700px;
     padding: 0;
   }
 
@@ -24,5 +79,171 @@
       font-style: normal;
     }
   }
+}
 
+
+
+// Service Section
+.service-heading {
+  margin: 15px 0;
+  text-transform: none;
+}
+
+
+// Catas Section
+
+#portfolio {
+  .portfolio-item {
+    margin: 0 0 15px;
+    right: 0;
+    .portfolio-link {
+      display: block;
+      position: relative;
+      max-width: 400px;
+      max-height: 240px;
+      overflow-y: hidden;
+      margin: 0 auto;
+      .img-cover {
+        width: 100%;
+      }
+      .portfolio-hover {
+        background: fade(@brand-primary, 90%);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: all ease 0.5s;
+        -webkit-transition: all ease 0.5s;
+        -moz-transition: all ease 0.5s;
+        &:hover {
+          opacity: 1;
+        }
+        .portfolio-hover-content {
+          position: absolute;
+          width: 100%;
+          height: 20px;
+          font-size: 20px;
+          text-align: center;
+          top: 50%;
+          margin-top: -12px;
+          color: white;
+          i {
+            margin-top: -12px;
+          }
+          h3,
+          h4 {
+            margin: 0;
+          }
+        }
+      }
+    }
+    .portfolio-caption {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: white;
+      text-align: center;
+      padding: 25px;
+      h4 {
+        text-transform: none;
+        margin: 0;
+      }
+      p {
+        .serif-font;
+        font-style: italic;
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+@media(min-width:767px) {
+  #portfolio {
+    .portfolio-item {
+      margin: 0 0 30px;
+    }
+  }
+}
+
+// Team Section
+
+.team-member {
+  text-align: center;
+  margin-bottom: 50px;
+  img {
+    margin: 0 auto;
+    border: 7px solid white;
+  }
+  h4 {
+    margin-top: 25px;
+    margin-bottom: 0;
+    text-transform: none;
+  }
+  p {
+    margin-top: 0;
+  }
+}
+
+// Clients Aside
+
+aside.clients {
+  img {
+    margin: 50px auto;
+  }
+
+  .bodega-logo {
+    height: 120px;
+  }
+}
+
+// Contact Section
+
+section#contact {
+  background-color: @gray-darkest;
+  background-image: url('../img/map-image.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  .section-heading, .section-subheading {
+    color: white;
+  }
+  .form-group {
+    margin-bottom: 25px;
+    input,
+    textarea {
+      padding: 20px;
+    }
+    input.form-control {
+      height: auto;
+    }
+    textarea.form-control {
+      height: 236px;
+    }
+  }
+  .form-control:focus {
+    border-color: @brand-primary;
+    box-shadow: none;
+  }
+  ::-webkit-input-placeholder {
+    .heading-font;
+    font-weight: 700;
+    color: @placeholder-text;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    .heading-font;
+    font-weight: 700;
+    color: @placeholder-text;
+  }
+  ::-moz-placeholder {  /* Firefox 19+ */
+    .heading-font;
+    font-weight: 700;
+    color: @placeholder-text;
+  }
+  :-ms-input-placeholder {
+    .heading-font;
+    font-weight: 700;
+    color: @placeholder-text;
+  }
+  .text-danger {
+    color: @brand-danger;
+  }
 }
