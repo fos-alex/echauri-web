@@ -48,8 +48,8 @@
             {
                 title: "Cata Bodega Fincas del Limay",
                 subtitle: "Cata Bodega Fincas del Limay en Echauri",
-                pics: ['fincas-limay/1.jpg','fincas-limay/2.jpg','fincas-limay/3.jpg','fincas-limay/4.jpg','fincas-limay/5.jpg'
-                    ,'fincas-limay/6.jpg','fincas-limay/7.jpg','fincas-limay/8.jpg','fincas-limay/9.jpg','fincas-limay/10.jpg'],
+                pics: ['fincas-limay/1.jpg','fincas-limay/2.jpg','fincas-limay/3.jpg','fincas-limay/4.jpg',
+                    'fincas-limay/5.jpg','fincas-limay/6.jpg','fincas-limay/7.jpg','fincas-limay/8.jpg','fincas-limay/9.jpg'],
                 alt: 'Cata bodega fincas-limay en Echauri',
                 cover: "assets/img/catas/fincas-limay/1.jpg"
             }
