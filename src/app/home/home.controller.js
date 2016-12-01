@@ -70,6 +70,20 @@
             });
             cata.gallery = gallery;
         });
+
+
+        vm.logoBodegas = [
+            {name: 'salentein.jpg'},
+            {name: 'kaiken.jpg'},
+            {name: 'clos-de-los-siete.jpg'},
+            {name: 'catena-zapata.jpg'},
+            {name: 'ernesto-catena.jpg'},
+            {name: 'fin-del-mundo.jpg'},
+            {name: 'desierto.jpg'},
+            {name: 'norton.jpg'},
+            {name: 'rosel.jpg'},
+            {name: 'rutini.jpg'}
+        ];
     }
 
 })();

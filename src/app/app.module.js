@@ -7,6 +7,7 @@
         'ngMap',
         'ngAnimate',
         'thatisuday.ng-image-gallery',
+        'angular-flexslider',
 
         'app.home',
 

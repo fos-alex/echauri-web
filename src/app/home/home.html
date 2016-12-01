@@ -166,26 +166,13 @@
 <aside class="clients">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="assets/img/bodegas/salentein.jpg" class="img-responsive img-centered bodega-logo" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="assets/img/bodegas/kaiken.jpg" class="img-responsive img-centered bodega-logo" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="assets/img/bodegas/clos-de-los-siete.jpg" class="img-responsive img-centered bodega-logo" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="assets/img/bodegas/rutini.jpg" class="img-responsive img-centered bodega-logo" alt="">
-                </a>
-            </div>
+            <flex-slider slide="logo in vm.logoBodegas track by logo.name" min-items="5" max-items="5" item-margin="30" item-width="50" animation="slide" control-nav="false" animation-loop="false">
+                <li>
+                    <a href="#">
+                        <img ng-src="assets/img/bodegas/{{logo.name}}" class="img-responsive img-centered bodega-logo" alt="">
+                    </a>
+                </li>
+            </flex-slider>
         </div>
     </div>
 </aside>
