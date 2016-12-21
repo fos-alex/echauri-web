@@ -1,6 +1,7 @@
 src/index.html
 *.sw[op]
 node_modules
+vendor
 src/assets/vendor
 dist
 src/app/**/*.css

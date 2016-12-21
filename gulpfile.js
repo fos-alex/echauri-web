@@ -54,10 +54,12 @@ var paths = {
     html: ['src/index.html', 'src/app/**/*.html'],
     less: ['src/**/*.less'],
     css:  ['src/assets/css/*.css'],
-    img:  ['src/assets/img/**/*.*'],
+    img:  ['src/assets/img/**/*'],
+    assets: ['src/assets/**/*'],
     fonts:['src/assets/fonts/**/*.*'],
     index: ['src/index.html.dist'],
-    dist: 'src/dist'
+    appHtml: ['src/**/*.html'],
+    dist: './dist'
 };
 
 var log = function(msg) {
@@ -75,7 +77,7 @@ gulp.task('clean', function() {
 gulp.task('connect', function() {
     return browserSync.init({
         server: {
-            baseDir: './src',
+            baseDir: paths.dist,
             middleware: [modRewrite(['^([^.]+)$ /index.html [L]'])]
         },
         open: false,
@@ -100,24 +102,27 @@ gulp.task('inject', ['clean'], function() {
 
     return gulp
         .src(paths.index)
-        .pipe(inject(jsFiles, { read: false, ignorePath: 'src' }))
-        .pipe(inject(cssFiles, { read: false, ignorePath: 'src' }))
+        .pipe(inject(jsFiles, { read: false, ignorePath: 'dist' }))
+        .pipe(inject(cssFiles, { read: false, ignorePath: 'dist' }))
         .pipe(rename('index.html'))
-        .pipe(gulp.dest('src'));
+        .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('assets', ['fonts'], function () {
-    gulp.src(paths.img)
-        .pipe(gulp.dest(paths.dist + '/img'));
+    gulp.src(paths.assets)
+        .pipe(gulp.dest(paths.dist + '/assets'));
+
+    gulp.src(paths.appHtml)
+        .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('fonts', function () {
     var vendorFonts = [
-        'src/assets/vendor/**/*.eot',
-        'src/assets/vendor/**/*.svg',
-        'src/assets/vendor/**/*.ttf',
-        'src/assets/vendor/**/*.woff',
-        'src/assets/vendor/**/*.woff2'
+        'vendor/**/*.eot',
+        'vendor/**/*.svg',
+        'vendor/**/*.ttf',
+        'vendor/**/*.woff',
+        'vendor/**/*.woff2'
     ];
 
     gulp.src(vendorFonts)
