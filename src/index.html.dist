@@ -15,9 +15,14 @@
     <meta name="robots" content="index" />
     <meta name="language" content="Spanish">
     <meta http-equiv="content-language" content="es">
-    <link rel="canonical" href="http://www.echaurivinos.com.ar" />
 
     <title>Echauri Vinos | Almacén de Vinos en Belgrano | Vuelta de Obligado 2290</title>
+
+    <link rel="canonical" href="http://www.echaurivinos.com.ar" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+    <!-- vendor:css -->
+    <!-- endinject-->
 
     <!-- inject:css -->
     <!-- endinject-->
@@ -41,14 +46,16 @@
 <body id="page-top" class="index">
 
     <div ng-view class="app-wrapper">
-        <ng-include src="'/app/navbar/navbar.html'"></ng-include>
+        <ng-include src="'/navbar/navbar.html'"></ng-include>
 
         <div class="content-wrapper">
             <div ui-view ng-cloak layout-fill></div>
         </div>
 
-        <ng-include src="'/app/footer/footer.html'"></ng-include>
+        <ng-include src="'/footer/footer.html'"></ng-include>
     </div>
+<!-- vendor:js -->
+<!-- endinject-->
 
 <!-- inject:js -->
 <!-- endinject-->

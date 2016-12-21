@@ -17,7 +17,7 @@
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: '/app/home/home.html',
+                templateUrl: '/home/home.html',
                 controller: 'Home as vm'
             });
 

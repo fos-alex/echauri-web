@@ -73,16 +73,16 @@
 
 
         vm.logoBodegas = [
-            {name: 'salentein.jpg'},
-            {name: 'kaiken.jpg'},
-            {name: 'clos-de-los-siete.jpg'},
-            {name: 'catena-zapata.jpg'},
-            {name: 'ernesto-catena.jpg'},
-            {name: 'fin-del-mundo.jpg'},
-            {name: 'desierto.jpg'},
-            {name: 'norton.jpg'},
-            {name: 'rosel.jpg'},
-            {name: 'rutini.jpg'}
+            {name: 'salentein'},
+            {name: 'kaiken'},
+            {name: 'clos-de-los-siete'},
+            {name: 'catena-zapata'},
+            {name: 'ernesto-catena'},
+            {name: 'fin-del-mundo'},
+            {name: 'desierto'},
+            {name: 'norton'},
+            {name: 'rosel'},
+            {name: 'rutini'}
         ];
     }
 

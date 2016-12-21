@@ -19,7 +19,11 @@
                     <h3 class="section-subheading">Vuelta de Obligado 2290, Belgrano, CABA. Tel: 4706-3293</h3>
                 </div>
                 <ng-map default-style="false" zoom="17" street-view-control="false" scrollwheel="false" center="[-34.5597659,-58.457259]">
-                    <marker position="2290 Vuelta de Obligado, Belgrano, Capital Federal" title="Echauri Vinos"></marker>
+                    <custom-marker position="2290 Vuelta de Obligado, Belgrano, Capital Federal" title="Echauri Vinos">
+                        <div class="cm">
+                            <img class="logo" src="../assets/img/logos/logo1-echauri.png" />
+                        </div>
+                    </custom-marker>
                 </ng-map>
             </div>
         </div>
@@ -81,83 +85,13 @@
                             inline="false"
                             bg-close="true"
                             ></ng-image-gallery>
-                    <img ng-src="{{cata.cover}}" class="img-responsive img-cover" alt="">
+                    <img ng-src="{{cata.cover}}" class="img-responsive img-cover" alt="{{cata.title}}">
                 </div>
                 <div class="portfolio-caption">
                     <h4>{{cata.title}}</h4>
                     <p class="text-muted">{{cata.subtitle}}</p>
                 </div>
             </div>
-<!--            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="assets/img/portfolio/startup-framework.png" class="img-responsive" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>Startup Framework</h4>
-                    <p class="text-muted">Website Design</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="assets/img/portfolio/treehouse.png" class="img-responsive" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>Treehouse</h4>
-                    <p class="text-muted">Website Design</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="assets/img/portfolio/golden.png" class="img-responsive" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>Golden</h4>
-                    <p class="text-muted">Website Design</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="assets/img/portfolio/escape.png" class="img-responsive" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>Escape</h4>
-                    <p class="text-muted">Website Design</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="assets/img/portfolio/dreams.png" class="img-responsive" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>Dreams</h4>
-                    <p class="text-muted">Website Design</p>
-                </div>
-            </div>-->
         </div>
     </div>
 </section>
@@ -169,7 +103,7 @@
             <flex-slider slide="logo in vm.logoBodegas track by logo.name" min-items="5" max-items="5" item-margin="30" item-width="50" animation="slide" control-nav="false" animation-loop="false">
                 <li>
                     <a href="#">
-                        <img ng-src="assets/img/bodegas/{{logo.name}}" class="img-responsive img-centered bodega-logo" alt="">
+                        <img ng-src="assets/img/bodegas/{{logo.name}}.jpg" class="img-responsive img-centered bodega-logo" alt="{{logo.name}}">
                     </a>
                 </li>
             </flex-slider>
@@ -231,7 +165,7 @@
                     </div>
                     <div class="col-sm-12 contact-subitem">
                         <i class="fa fa-envelope-o"></i>
-                        <a class="contact-text" href="mailto:echaurivinos@gmail.com">echaurivinos@gmail.com</a>
+                        <a class="contact-text" href="mailto:info@echaurivinos.com.ar">info@echaurivinos.com.ar</a>
                     </div>
                 </div>
             </div>

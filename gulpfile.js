@@ -1,22 +1,24 @@
-var gulp                 = require('gulp');
-var connect              = require('gulp-connect');
-var less                 = require('gulp-less');
-var gutil                = require('gulp-util');
-var flatten              = require('gulp-flatten');
-var concat               = require('gulp-concat');
-var inject               = require('gulp-inject');
-var clean                = require('gulp-clean');
-var rename               = require("gulp-rename");
-var browserSync          = require('browser-sync').create();
-var modRewrite           = require('connect-modrewrite');
-var wiredep              = require('wiredep');
+var gulp          = require('gulp');
+var connect       = require('gulp-connect');
+var less          = require('gulp-less');
+var gutil         = require('gulp-util');
+var flatten       = require('gulp-flatten');
+var concat        = require('gulp-concat');
+var inject        = require('gulp-inject');
+var clean         = require('gulp-clean');
+var cleanCSS      = require('gulp-clean-css');
+var rename        = require("gulp-rename");
+var browserSync   = require('browser-sync').create();
+var modRewrite    = require('connect-modrewrite');
+var wiredep       = require('wiredep');
+var sourcemaps    = require('gulp-sourcemaps');
 var LessAutoprefix = require('less-plugin-autoprefix');
 var uglify = require('gulp-uglify');
 var babel = require("gulp-babel");
 var gulpif = require('gulp-if');
 var addSrc = require('gulp-add-src');
 var runSequence = require('run-sequence');
-var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
+var autoprefix = new LessAutoprefix({ browsers: ['last 3 versions'] });
 
 // ENV Variables
 var ENVIRONMENTS = {
@@ -51,15 +53,22 @@ var paths = {
         'src/app/**/*.module.js',
         'src/app/**/*.js'
     ],
-    html: ['src/index.html', 'src/app/**/*.html'],
+    html: ['src/app/**/*.html'],
     less: ['src/**/*.less'],
-    css:  ['src/assets/css/*.css'],
+    css:  ['dist/application.css'],
     img:  ['src/assets/img/**/*'],
     assets: ['src/assets/**/*'],
     fonts:['src/assets/fonts/**/*.*'],
     index: ['src/index.html.dist'],
-    appHtml: ['src/**/*.html'],
-    dist: './dist'
+    dist: './dist',
+    distJs: [
+        'dist/app.module.js',
+        'dist/app.config.js',
+        'dist/app.routes.js',
+        'dist/**/*.module.js',
+        'dist/**/*.js'
+    ],
+    distCss: ['dist/**/*.css']
 };
 
 var log = function(msg) {
@@ -87,23 +96,24 @@ gulp.task('connect', function() {
 });
 
 // Inject css, js and bower dependencies into index.html file
-gulp.task('inject', ['clean'], function() {
-    var jsFiles = gulp.src(paths.js)
-            .pipe(babel())
-            .pipe(addSrc.prepend(wiredep({}).js))
-            .pipe(gulpif(argv.useMin, concat('app.main.js')))
-            .pipe(gulpif(argv.useMin, uglify()))
-            .pipe(gulp.dest(paths.dist));
+gulp.task('inject', function() {
+    var appFiles = gulp.src([].concat(paths.distCss, paths.distJs));
+    var vendorJs = gulp.src(wiredep({}).js)
+        .pipe(gulpif(argv.useMin, concat('vendors.js')))
+        .pipe(gulpif(argv.useMin, uglify()))
+        .pipe(gulp.dest(paths.dist));
 
-    var cssFiles = gulp.src(wiredep({}).css)
-            .pipe(gulpif(argv.useMin, concat('vendors.css')))
-            .pipe(addSrc.append(paths.css))
-            .pipe(gulp.dest(paths.dist));
+    var vendorCss = gulp.src(wiredep({}).css)
+        .pipe(gulpif(argv.useMin, concat('vendors.css')))
+        .pipe(gulpif(argv.useMin, cleanCSS({compatibility: 'ie8'})))
+        .pipe(gulp.dest(paths.dist));
+
 
     return gulp
         .src(paths.index)
-        .pipe(inject(jsFiles, { read: false, ignorePath: 'dist' }))
-        .pipe(inject(cssFiles, { read: false, ignorePath: 'dist' }))
+        .pipe(inject(vendorJs, { read: false, ignorePath: 'dist', name: 'vendor'}))
+        .pipe(inject(vendorCss, { read: false, ignorePath: 'dist', name: 'vendor'}))
+        .pipe(inject(appFiles, { read: false, ignorePath: 'dist' }))
         .pipe(rename('index.html'))
         .pipe(gulp.dest(paths.dist));
 });
@@ -111,9 +121,6 @@ gulp.task('inject', ['clean'], function() {
 gulp.task('assets', ['fonts'], function () {
     gulp.src(paths.assets)
         .pipe(gulp.dest(paths.dist + '/assets'));
-
-    gulp.src(paths.appHtml)
-        .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('fonts', function () {
@@ -133,15 +140,19 @@ gulp.task('fonts', function () {
 
 // Compile less into CSS & auto-inject into browsers
 gulp.task('less', function() {
-    return gulp
+    gulp
         .src(['src/less/application.less'])
         .pipe(less({
                 plugins: [autoprefix]
         }))
-        .pipe(gulp.dest('src/assets/css'))
+        .pipe(gulp.dest(paths.dist))
         .on('end', log('Compiled less files'))
-        .pipe(browserSync.stream())
-        .on('end', log('Reloaded by changes on css'));
+        .pipe(gulpif(argv.useMin, concat('application.css')))
+        .pipe(gulpif(argv.useMin, cleanCSS({compatibility: 'ie8'})))
+        .pipe(gulp.dest(paths.dist))
+        .pipe(connect.reload())
+        .on('end', log('Reloaded by changes on css'))
+
 });
 
 gulp.task('less:watch', function() {
@@ -149,10 +160,12 @@ gulp.task('less:watch', function() {
 });
 
 gulp.task('js', function() {
-    return gulp
-        .src(paths.js)
+    return gulp.src(paths.js)
         .pipe(babel())
-        .pipe(gulpif(argv.maps, sourcemaps.write('./maps')))
+        .pipe(gulpif(argv.useMin, concat('app.main.js')))
+        .pipe(gulpif(argv.useMin, sourcemaps.write(paths.dist + '/maps')))
+        .pipe(gulpif(argv.useMin, uglify()))
+        .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload())
         .on('end', log('Reloaded by changes on js'));
 });
@@ -167,6 +180,7 @@ gulp.task('html', function() {
     return gulp
         .src(paths.html)
         .pipe(connect.reload())
+        .pipe(gulp.dest(paths.dist))
         .on('end', log('Reloaded by changes on html'));
 });
 
@@ -178,7 +192,7 @@ gulp.task('index:watch', function() {
 
 gulp.task('html:watch', function() {
     return gulp
-        .watch(paths.html)
+        .watch(paths.html, ['html'])
         .on('change', browserSync.reload);
 });
 
@@ -188,7 +202,7 @@ gulp.task('bower:watch', function() {
 
 // Main tasks
 gulp.task('build', ['clean'], function () {
-    runSequence(['less', 'assets', 'inject']);
+    runSequence(['js', 'less', 'html', 'assets'], 'inject');
 });
 
 gulp.task('serve', [
