@@ -2,14 +2,17 @@ var gulp                 = require('gulp');
 var connect            = require('gulp-connect');
 var less                 = require('gulp-less');
 var gutil                = require('gulp-util');
+var concat              = require('gulp-concat');
 var inject             = require('gulp-inject');
 var rename             = require("gulp-rename");
 var browserSync    = require('browser-sync').create();
 var modRewrite     = require('connect-modrewrite');
-var wiredep            = require('wiredep').stream;
+var wiredep            = require('wiredep');
 var LessAutoprefix = require('less-plugin-autoprefix');
+var uglify = require('gulp-uglify');
 var babel = require("gulp-babel");
 var gulpif = require('gulp-if');
+var addSrc = require('gulp-add-src');
 var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
 
 // ENV Variables
@@ -74,21 +77,22 @@ gulp.task('connect', function() {
 
 // Inject css, js and bower dependencies into index.html file
 gulp.task('inject', function() {
-    var logicalOrder = [].concat(paths.js, paths.css);
+    var filesToInject = gulp.src(paths.js)
+                            .pipe(babel())
+                            .pipe(addSrc.prepend(wiredep({}).js))
+                            .pipe(gulpif(argv.useMin, concat('app.main.js')))
+                            .pipe(gulpif(argv.useMin, uglify()))
+                            .pipe(gulp.dest('./src/dist'))
+                            .pipe(addSrc(wiredep({}).css).pipe(gulpif(argv.useMin, concat('vendors.css'))))
+                            .pipe(addSrc.append(paths.css));
 
     return gulp
         .src(paths.index)
-        .pipe(inject(gulp.src(logicalOrder), { read: false, ignorePath: 'src' }))
-        .pipe(wiredep({
-            "overrides": {
-                "moment": {
-                  "main": ["moment.js", "locale/en-au.js", "locale/es.js", "locale/it.js"]
-                }
-            }
-        }))
+        .pipe(inject(filesToInject, { read: false, ignorePath: 'src' }))
         .pipe(rename('index.html'))
         .pipe(gulp.dest('src'));
 });
+
 
 // Compile less into CSS & auto-inject into browsers
 gulp.task('less', function() {
@@ -111,7 +115,7 @@ gulp.task('js', function() {
     return gulp
         .src(paths.js)
         .pipe(babel())
-        .pipe(gulpif(argv.maps,sourcemaps.write('./../maps')))
+        .pipe(gulpif(argv.maps, sourcemaps.write('./maps')))
         .pipe(connect.reload())
         .on('end', log('Reloaded by changes on js'));
 });

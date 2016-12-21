@@ -19,9 +19,6 @@
 
     <title>Echauri Vinos | Almacén de Vinos en Belgrano | Vuelta de Obligado 2290</title>
 
-    <!-- bower:css -->
-    <!-- endbower -->
-
     <!-- inject:css -->
     <!-- endinject-->
 
@@ -52,9 +49,6 @@
 
         <ng-include src="'/app/footer/footer.html'"></ng-include>
     </div>
-
-<!-- bower:js -->
-<!-- endbower -->
 
 <!-- inject:js -->
 <!-- endinject-->
