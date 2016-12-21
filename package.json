@@ -1,8 +1,8 @@
 {
-  "name": "handerr-ui",
+  "name": "echauri",
   "version": "0.0.1",
-  "description": "Handerr UI",
-  "author": "Handerr Team",
+  "description": "Echauri",
+  "author": "Alex Otero",
   "license": "ISC",
   "directories": {
     "test": "test"
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "less-plugin-autoprefix": "^1.5.1",
+    "nodemailer-ses-transport": "^1.5.0",
     "yargs": "^4.7.1"
   }
 }
