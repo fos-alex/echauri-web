@@ -83,7 +83,7 @@ gulp.task('inject', function() {
                             .pipe(gulpif(argv.useMin, concat('app.main.js')))
                             .pipe(gulpif(argv.useMin, uglify()))
                             .pipe(gulp.dest('./src/dist'))
-                            .pipe(addSrc(wiredep({}).css).pipe(gulpif(argv.useMin, concat('vendors.css'))))
+                            .pipe(addSrc(wiredep({}).css).pipe(gulpif(argv.useMin, concat('vendors.css'))).pipe(gulp.dest('src/dist')))
                             .pipe(addSrc.append(paths.css));
 
     return gulp
