@@ -1,18 +1,21 @@
 var gulp                 = require('gulp');
-var connect            = require('gulp-connect');
+var connect              = require('gulp-connect');
 var less                 = require('gulp-less');
 var gutil                = require('gulp-util');
-var concat              = require('gulp-concat');
-var inject             = require('gulp-inject');
-var rename             = require("gulp-rename");
-var browserSync    = require('browser-sync').create();
-var modRewrite     = require('connect-modrewrite');
-var wiredep            = require('wiredep');
+var flatten              = require('gulp-flatten');
+var concat               = require('gulp-concat');
+var inject               = require('gulp-inject');
+var clean                = require('gulp-clean');
+var rename               = require("gulp-rename");
+var browserSync          = require('browser-sync').create();
+var modRewrite           = require('connect-modrewrite');
+var wiredep              = require('wiredep');
 var LessAutoprefix = require('less-plugin-autoprefix');
 var uglify = require('gulp-uglify');
 var babel = require("gulp-babel");
 var gulpif = require('gulp-if');
 var addSrc = require('gulp-add-src');
+var runSequence = require('run-sequence');
 var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
 
 // ENV Variables
@@ -53,7 +56,8 @@ var paths = {
     css:  ['src/assets/css/*.css'],
     img:  ['src/assets/img/**/*.*'],
     fonts:['src/assets/fonts/**/*.*'],
-    index: ['src/index.html.dist']
+    index: ['src/index.html.dist'],
+    dist: 'src/dist'
 };
 
 var log = function(msg) {
@@ -61,6 +65,11 @@ var log = function(msg) {
         gutil.log(msg)
     };
 };
+
+gulp.task('clean', function() {
+    return gulp.src(paths.dist + '/')
+        .pipe(clean({force: true}));
+});
 
 // Static Server
 gulp.task('connect', function() {
@@ -76,21 +85,44 @@ gulp.task('connect', function() {
 });
 
 // Inject css, js and bower dependencies into index.html file
-gulp.task('inject', function() {
-    var filesToInject = gulp.src(paths.js)
-                            .pipe(babel())
-                            .pipe(addSrc.prepend(wiredep({}).js))
-                            .pipe(gulpif(argv.useMin, concat('app.main.js')))
-                            .pipe(gulpif(argv.useMin, uglify()))
-                            .pipe(gulp.dest('./src/dist'))
-                            .pipe(addSrc(wiredep({}).css).pipe(gulpif(argv.useMin, concat('vendors.css'))).pipe(gulp.dest('src/dist')))
-                            .pipe(addSrc.append(paths.css));
+gulp.task('inject', ['clean'], function() {
+    var jsFiles = gulp.src(paths.js)
+            .pipe(babel())
+            .pipe(addSrc.prepend(wiredep({}).js))
+            .pipe(gulpif(argv.useMin, concat('app.main.js')))
+            .pipe(gulpif(argv.useMin, uglify()))
+            .pipe(gulp.dest(paths.dist));
+
+    var cssFiles = gulp.src(wiredep({}).css)
+            .pipe(gulpif(argv.useMin, concat('vendors.css')))
+            .pipe(addSrc.append(paths.css))
+            .pipe(gulp.dest(paths.dist));
 
     return gulp
         .src(paths.index)
-        .pipe(inject(filesToInject, { read: false, ignorePath: 'src' }))
+        .pipe(inject(jsFiles, { read: false, ignorePath: 'src' }))
+        .pipe(inject(cssFiles, { read: false, ignorePath: 'src' }))
         .pipe(rename('index.html'))
         .pipe(gulp.dest('src'));
+});
+
+gulp.task('assets', ['fonts'], function () {
+    gulp.src(paths.img)
+        .pipe(gulp.dest(paths.dist + '/img'));
+});
+
+gulp.task('fonts', function () {
+    var vendorFonts = [
+        'src/assets/vendor/**/*.eot',
+        'src/assets/vendor/**/*.svg',
+        'src/assets/vendor/**/*.ttf',
+        'src/assets/vendor/**/*.woff',
+        'src/assets/vendor/**/*.woff2'
+    ];
+
+    gulp.src(vendorFonts)
+        .pipe(flatten())
+        .pipe(gulp.dest(paths.dist + '/fonts'));
 });
 
 
@@ -150,10 +182,9 @@ gulp.task('bower:watch', function() {
 });
 
 // Main tasks
-gulp.task('build', [
-    'less',
-    'inject'
-]);
+gulp.task('build', ['clean'], function () {
+    runSequence(['less', 'assets', 'inject']);
+});
 
 gulp.task('serve', [
     'build',
