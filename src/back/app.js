@@ -1,11 +1,21 @@
 var nodemailer = require('nodemailer');
 var express = require('express');
 var ses = require('nodemailer-ses-transport');
+var bodyParser = require('body-parser');
 
 var app = express();
 var router = express.Router();
-app.use('/send-email', router);
-router.get('/', handleSendEmail); // handle the route at yourdomain.com/sayHello
+
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+
+app.use('/api', router);
+router.post('/send-email', handleSendEmail); // handle the route at yourdomain.com/sayHello
 
 app.listen(4000, function () {
     console.log('Example app listening on port 4000!')
@@ -19,15 +29,20 @@ var transporter = nodemailer.createTransport(ses({
 }));
 
 function handleSendEmail(req, res) {
+    console.log(req.params);
+    console.log(req.body);
+    if (!req.body) return res.sendStatus(400);
 
+    var text = `Contacto de: ${req.body.name} \n
 
-    var text = 'Hello world from';
+    ${req.body.message}`;
 
     var mailOptions = {
         from: 'info@echaurivinos.com.ar', // sender address
         to: 'fos.alex@gmail.com', // list of receivers
-        subject: 'Email Example', // Subject line
-        text: text //, // plaintext body
+        subject: 'Contacto de ' + req.body.name, // Subject line
+        replyTo: req.body.email,
+        text: text//, // plaintext body
         // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
     };
 

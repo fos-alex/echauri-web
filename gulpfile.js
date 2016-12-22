@@ -88,6 +88,7 @@ gulp.task('connect', function() {
         server: {
             baseDir: paths.dist,
             middleware: [modRewrite(['^([^.]+)$ /index.html [L]'])]
+
         },
         open: false,
         port: 3000,

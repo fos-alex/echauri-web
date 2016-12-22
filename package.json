@@ -49,6 +49,7 @@
     "test": "gulp test"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "less-plugin-autoprefix": "^1.5.1",
     "nodemailer-ses-transport": "^1.5.0",
     "yargs": "^4.7.1"
