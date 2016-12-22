@@ -29,24 +29,22 @@ var transporter = nodemailer.createTransport(ses({
 }));
 
 function handleSendEmail(req, res) {
-    console.log(req.params);
-    console.log(req.body);
     if (!req.body) return res.sendStatus(400);
 
-    var text = `Contacto de: ${req.body.name} \n
+    var text = `Contacto de: <b>${req.body.name  || ''}</b>
+    Teléfono: ${req.body.phone || ''}
 
     ${req.body.message}`;
 
     var mailOptions = {
         from: 'info@echaurivinos.com.ar', // sender address
-        to: 'fos.alex@gmail.com', // list of receivers
-        subject: 'Contacto de ' + req.body.name, // Subject line
+        to: 'info@echaurivinos.com.ar', // list of receivers
+        subject: `Contacto de ${req.body.name || ''} desde echaurivinos.com.ar`, // Subject line
         replyTo: req.body.email,
         text: text//, // plaintext body
-        // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
     };
 
-    console.log('Sending email');
+    console.log('Sending email from ' + req.body.email);
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
